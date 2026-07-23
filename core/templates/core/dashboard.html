@@ -1,0 +1,107 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard - 4U{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Painel Principal</h2>
+
+<div class="row g-4">
+
+    <!-- Seção 1: Timer Pomodoro (Processamento em Cliente / JavaScript) -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 text-center p-3">
+            <h5 class="card-title text-primary">Timer Pomodoro (RF013)</h5>
+            <div class="display-3 my-3 fw-bold" id="timer-display">25:00</div>
+            <div>
+                <button class="btn btn-success me-2" onclick="startPomodoro(25)">Iniciar Foco</button>
+                <button class="btn btn-warning me-2" onclick="startPomodoro(5)">Pausa Curta</button>
+                <button class="btn btn-danger" onclick="stopPomodoro()">Parar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seção 2: To-Do List (Tarefas) -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 p-3">
+            <h5 class="card-title text-primary mb-3">Minhas Tarefas (RF004)</h5>
+            <ul class="list-group list-group-flush mb-3">
+                {% for tarefa in tarefas %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+<span style="border-left: 4px solid {% if tarefa.cor_etiqueta %}{{ tarefa.cor_etiqueta }}{% else %}#000{% endif %}; padding-left: 8px;">
+                            {{ tarefa.titulo }}
+                        </span>
+                        <span class="badge bg-secondary">{{ tarefa.tempo_estimado_minutos }} min</span>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">Nenhuma tarefa pendente.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Seção 3: Mural Pessoal -->
+    <div class="col-md-4">
+        <div class="card shadow-sm border-0 p-3">
+            <h5 class="card-title text-primary mb-3">Mural Pessoal (RF009)</h5>
+            <div class="list-group list-group-flush">
+                {% for post in postagens %}
+                    <div class="list-group-item">
+                        <p class="mb-1">{{ post.conteudo }}</p>
+                        <small class="text-muted">{{ post.data_criacao|date:"d/m/Y H:i" }}</small>
+                    </div>
+                {% empty %}
+                    <p class="text-muted">Nenhum recado no mural.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Script assíncrono para Pomodoro (Atende RN002 e RN003) -->
+<script>
+let timer;
+let isRunning = false;
+
+function startPomodoro(minutes) {
+    if (isRunning) return;
+    isRunning = true;
+    let seconds = minutes * 60;
+    const display = document.getElementById('timer-display');
+
+    clearInterval(timer);
+    timer = setInterval(() => {
+        let min = Math.floor(seconds / 60);
+        let sec = seconds % 60;
+        display.textContent = `${min < 10 ? '0' : ''}${min}:${sec < 10 ? '0' : ''}${sec}`;
+
+        if (--seconds < 0) {
+            clearInterval(timer);
+            isRunning = false;
+            salvarCicloPomodoro(minutes); // Comunicação via Fetch API ao servidor
+        }
+    }, 1000);
+}
+
+function stopPomodoro() {
+    clearInterval(timer);
+    isRunning = false;
+    document.getElementById('timer-display').textContent = '25:00';
+}
+
+function salvarCicloPomodoro(duracaoMinutos) {
+    fetch('/api/pomodoro/registrar/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({ duracao: duracaoMinutos })
+    })
+    .then(response => response.json())
+    .then(data => alert('Ciclo de Foco registrado no servidor!'));
+}
+</script>
+{% endblock %}

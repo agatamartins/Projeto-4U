@@ -1,0 +1,51 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Evolução e Conquistas - 4U{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Metas e Medalhas</h2>
+
+<div class="row g-4">
+    <!-- Metas Pessoais -->
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 p-3">
+            <h5 class="text-primary mb-3">Minhas Metas Pessoais (RF011)</h5>
+            <ul class="list-group list-group-flush">
+                {% for meta in metas %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ meta.titulo }}</strong><br>
+                            <small class="text-muted">Prazo: {{ meta.prazo|date:"d/m/Y" }}</small>
+                        </div>
+                        <span class="badge {% if meta.atingida %}bg-success{% else %}bg-secondary{% endif %}">
+                            {% if meta.atingida %}Atingida{% else %}Em progresso{% endif %}
+                        </span>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item text-muted">Nenhuma meta cadastrada.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- Sistema de Conquistas -->
+    <div class="col-md-6">
+        <div class="card shadow-sm border-0 p-3">
+            <h5 class="text-primary mb-3">Medalhas de Conquista (RF012)</h5>
+            <div class="row">
+                {% for item in conquistas %}
+                    <div class="col-6 mb-3 text-center">
+                        <div class="p-3 border rounded bg-white">
+                            <i class="{{ item.conquista.icone }} fs-1 text-warning"></i>
+                            <h6 class="mt-2">{{ item.conquista.nome }}</h6>
+                            <small class="text-muted">{{ item.conquista.descricao }}</small>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="text-muted ms-3">Você ainda não possui medalhas liberadas.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Calendário - 4U{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Calendário Interativo</h2>
+
+<div class="card shadow-sm border-0 p-4">
+    <div class="row">
+        {% for tarefa in tarefas %}
+            <div class="col-md-4 mb-3">     
+                <div class="card p-3" style="border-top: 5px solid {{ tarefa.cor_etiqueta|default:'#000' }};">
+                    <h6>{{ tarefa.titulo }}</h6>
+                    <p class="text-muted mb-1"><small>Data: {{ tarefa.data_execucao|date:"d/m/Y" }}</small></p>
+                    <span class="badge {% if tarefa.concluida %}bg-success{% else %}bg-warning{% endif %}">
+                        {% if tarefa.concluida %}Concluída{% else %}Pendente{% endif %}
+                    </span>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Nenhuma tarefa agendada.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
