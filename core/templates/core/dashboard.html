@@ -1,36 +1,50 @@
 {% extends 'core/base.html' %}
-
 {% block title %}Dashboard - 4U{% endblock %}
-
 {% block content %}
 <h2 class="mb-4">Painel Principal</h2>
 
 <div class="row g-4">
 
-    <!-- Seção 1: Timer Pomodoro (Processamento em Cliente / JavaScript) -->
     <div class="col-md-4">
         <div class="card shadow-sm border-0 text-center p-3">
-            <h5 class="card-title text-primary">Timer Pomodoro (RF013)</h5>
-            <div class="display-3 my-3 fw-bold" id="timer-display">25:00</div>
+            <h5 class="card-title text-primary">Timer Pomodoro</h5>
+            <div class="display-3 my-3 fw-bold" id="timer-display">60:00</div>
             <div>
-                <button class="btn btn-success me-2" onclick="startPomodoro(25)">Iniciar Foco</button>
+                <button class="btn btn-success me-2" onclick="startPomodoro(60)">Iniciar Foco</button>
                 <button class="btn btn-warning me-2" onclick="startPomodoro(5)">Pausa Curta</button>
                 <button class="btn btn-danger" onclick="stopPomodoro()">Parar</button>
             </div>
         </div>
     </div>
 
-    <!-- Seção 2: To-Do List (Tarefas) -->
     <div class="col-md-4">
         <div class="card shadow-sm border-0 p-3">
-            <h5 class="card-title text-primary mb-3">Minhas Tarefas (RF004)</h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title text-primary mb-0">Minhas Tarefas</h5>
+                <a href="{% url 'criar_tarefa' %}?origem=dashboard" class="btn btn-sm btn-primary">+ Nova</a>
+            </div>
             <ul class="list-group list-group-flush mb-3">
                 {% for tarefa in tarefas %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-<span style="border-left: 4px solid {% if tarefa.cor_etiqueta %}{{ tarefa.cor_etiqueta }}{% else %}#000{% endif %}; padding-left: 8px;">
-                            {{ tarefa.titulo }}
-                        </span>
-                        <span class="badge bg-secondary">{{ tarefa.tempo_estimado_minutos }} min</span>
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span style="border-left: 4px solid {% if tarefa.cor_etiqueta %}{{ tarefa.cor_etiqueta }}{% else %}#000{% endif %}; padding-left: 8px;">
+                                {{ tarefa.titulo }}
+                            </span>
+                            <span class="badge bg-secondary">{{ tarefa.tempo_estimado_minutos }} min</span>
+                        </div>
+                        <div class="mt-2 d-flex gap-2">
+                            <form method="post" action="{% url 'concluir_tarefa' tarefa.pk %}" class="m-0">
+                                {% csrf_token %}
+                                <input type="hidden" name="origem" value="dashboard">
+                                <button type="submit" class="btn btn-sm btn-outline-success">Concluir</button>
+                            </form>
+                            <a href="{% url 'editar_tarefa' tarefa.pk %}?origem=dashboard" class="btn btn-sm btn-outline-secondary">Editar</a>
+                            <form method="post" action="{% url 'excluir_tarefa' tarefa.pk %}" class="m-0" onsubmit="return confirm('Excluir esta tarefa?');">
+                                {% csrf_token %}
+                                <input type="hidden" name="origem" value="dashboard">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">Excluir</button>
+                            </form>
+                        </div>
                     </li>
                 {% empty %}
                     <li class="list-group-item text-muted">Nenhuma tarefa pendente.</li>
@@ -39,10 +53,16 @@
         </div>
     </div>
 
-    <!-- Seção 3: Mural Pessoal -->
     <div class="col-md-4">
         <div class="card shadow-sm border-0 p-3">
-            <h5 class="card-title text-primary mb-3">Mural Pessoal (RF009)</h5>
+            <h5 class="card-title text-primary mb-3">Mural Pessoal</h5>
+
+            <form method="post" class="mb-3">
+                {% csrf_token %}
+                {{ form_postagem.conteudo }}
+                <button type="submit" class="btn btn-sm btn-primary mt-2">Publicar</button>
+            </form>
+
             <div class="list-group list-group-flush">
                 {% for post in postagens %}
                     <div class="list-group-item">
@@ -60,7 +80,7 @@
 {% endblock %}
 
 {% block extra_js %}
-<!-- Script assíncrono para Pomodoro (Atende RN002 e RN003) -->
+
 <script>
 let timer;
 let isRunning = false;
@@ -80,7 +100,7 @@ function startPomodoro(minutes) {
         if (--seconds < 0) {
             clearInterval(timer);
             isRunning = false;
-            salvarCicloPomodoro(minutes); // Comunicação via Fetch API ao servidor
+            salvarCicloPomodoro(minutes); 
         }
     }, 1000);
 }
@@ -88,7 +108,7 @@ function startPomodoro(minutes) {
 function stopPomodoro() {
     clearInterval(timer);
     isRunning = false;
-    document.getElementById('timer-display').textContent = '25:00';
+    document.getElementById('timer-display').textContent = '60:00';
 }
 
 function salvarCicloPomodoro(duracaoMinutos) {

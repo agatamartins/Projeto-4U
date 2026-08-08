@@ -52,4 +52,4 @@ class ConquistaUsuario(models.Model):
 class HistoricoPomodoro(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
     data_hora_conclusao = models.DateTimeField(auto_now_add=True)
-    duracao_minutos = models.IntegerField(default=25)
+    duracao_minutos = models.IntegerField(default=60)

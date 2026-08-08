@@ -9,7 +9,19 @@
     <!-- Metas Pessoais -->
     <div class="col-md-6">
         <div class="card shadow-sm border-0 p-3">
-            <h5 class="text-primary mb-3">Minhas Metas Pessoais (RF011)</h5>
+            <h5 class="text-primary mb-3">Minhas Metas Pessoais</h5>
+
+            <form method="post" class="row g-2 mb-3">
+                {% csrf_token %}
+                <label class="form-label">Título</label>
+                <div class="col-12">{{ form_meta.titulo }}</div>
+                <label class="form-label">Descrição</label>
+                <div class="col-12">{{ form_meta.descricao }}</div>
+                <label class="form-label">Prazo</label>
+                <div class="col-8">{{ form_meta.prazo }}</div>
+                <div class="col-4"><button type="submit" class="btn btn-primary w-100">Adicionar</button></div>
+            </form>
+
             <ul class="list-group list-group-flush">
                 {% for meta in metas %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -17,9 +29,14 @@
                             <strong>{{ meta.titulo }}</strong><br>
                             <small class="text-muted">Prazo: {{ meta.prazo|date:"d/m/Y" }}</small>
                         </div>
-                        <span class="badge {% if meta.atingida %}bg-success{% else %}bg-secondary{% endif %}">
-                            {% if meta.atingida %}Atingida{% else %}Em progresso{% endif %}
-                        </span>
+                        {% if meta.atingida %}
+                            <span class="badge bg-success">Atingida</span>
+                        {% else %}
+                            <form method="post" action="{% url 'concluir_meta' meta.pk %}" class="m-0">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-outline-success">Marcar como atingida</button>
+                            </form>
+                        {% endif %}
                     </li>
                 {% empty %}
                     <li class="list-group-item text-muted">Nenhuma meta cadastrada.</li>
@@ -27,11 +44,9 @@
             </ul>
         </div>
     </div>
-
-    <!-- Sistema de Conquistas -->
     <div class="col-md-6">
         <div class="card shadow-sm border-0 p-3">
-            <h5 class="text-primary mb-3">Medalhas de Conquista (RF012)</h5>
+            <h5 class="text-primary mb-3">Medalhas de Conquista</h5>
             <div class="row">
                 {% for item in conquistas %}
                     <div class="col-6 mb-3 text-center">
@@ -46,6 +61,36 @@
                 {% endfor %}
             </div>
         </div>
+        <br>
+<div class="row mt-6">
+    <div class="card shadow-sm border-0 p-3">
+        <h5 class="text-primary mb-3">Catálogo de Conquistas Disponíveis</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Ícone</th>
+                        <th>Nome</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in catalogo %}
+                    <tr>
+                        <td class="text-center"><i class="{{ c.icone }} fs-4"></i></td>
+                        <td><strong>{{ c.nome }}</strong></td>
+                        <td>{{ c.descricao }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="text-muted">Nenhuma conquista cadastrada no sistema.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
     </div>
 </div>
 {% endblock %}

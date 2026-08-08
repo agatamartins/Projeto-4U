@@ -1,19 +1,11 @@
 {% extends 'core/base.html' %}
-
 {% block title %}Cadastro - 4U{% endblock %}
-
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card shadow-sm border-0">
             <div class="card-body p-4">
                 <h3 class="card-title text-center mb-4">Criar Conta no 4U</h3>
-
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-                    {% endfor %}
-                {% endif %}
 
                 <form method="post">
                     {% csrf_token %}
@@ -40,5 +32,7 @@
                     Já tem conta? <a href="{% url 'login' %}">Faça login</a>
                 </p>
             </div>
+        </div>
     </div>
+</div>
 {% endblock %}

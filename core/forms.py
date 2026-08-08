@@ -35,3 +35,30 @@ class PostagemMuralForm(forms.ModelForm):
         widgets = {
             'conteudo': forms.Textarea(attrs={'class': 'form-control', 'rows': 2, 'placeholder': 'Escreva uma anotação ou lembrete...'}),
         }
+
+# Formulário para criar metas pessoais (RF011)
+class MetaPessoalForm(forms.ModelForm):
+    class Meta:
+        model = MetaPessoal
+        fields = ['titulo', 'descricao', 'prazo']
+        widgets = {
+            'titulo': forms.TextInput(attrs={'class': 'form-control'}),
+            'descricao': forms.Textarea(attrs={'class': 'form-control', 'rows': 2}),
+            'prazo': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }
+
+# Formulário de edição de perfil (RF003)
+class PerfilForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+        labels = {
+            'first_name': 'Nome',
+            'last_name': 'Sobrenome',
+            'email': 'E-mail',
+        }
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        }

@@ -1,25 +1,67 @@
 {% extends 'core/base.html' %}
-
-{% block title %}Calendário - 4U{% endblock %}
+{% block title %}Calendário de Tarefas - 4U{% endblock %}
+{% block extra_head %}
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css' rel='stylesheet' />
+{% endblock %}
 
 {% block content %}
-<h2 class="mb-4">Calendário Interativo</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">Calendário de Tarefas</h2>
 
-<div class="card shadow-sm border-0 p-4">
     <div class="row">
-        {% for tarefa in tarefas %}
-            <div class="col-md-4 mb-3">     
-                <div class="card p-3" style="border-top: 5px solid {{ tarefa.cor_etiqueta|default:'#000' }};">
-                    <h6>{{ tarefa.titulo }}</h6>
-                    <p class="text-muted mb-1"><small>Data: {{ tarefa.data_execucao|date:"d/m/Y" }}</small></p>
-                    <span class="badge {% if tarefa.concluida %}bg-success{% else %}bg-warning{% endif %}">
-                        {% if tarefa.concluida %}Concluída{% else %}Pendente{% endif %}
-                    </span>
+        <div class="col-lg-8 mb-4">
+            <div class="card shadow-sm border-0 p-3">
+                <div id="calendar"></div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 p-3">
+                <h5 class="text-primary mb-3">Tarefas do Dia</h5>
+                <div id="detalhes-dia" class="text-muted">
+                    Clique em um dia no calendário para ver as tarefas agendadas.
                 </div>
             </div>
-        {% empty %}
-            <p class="text-muted">Nenhuma tarefa agendada.</p>
-        {% endfor %}
+        </div>
     </div>
 </div>
+
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        
+        var eventos = {{ eventos_json|safe }};
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            locale: 'pt-br',
+            events: eventos,
+
+            dateClick: function(info) {
+                var dataSelecionada = info.dateStr; 
+
+                var tarefasDoDia = eventos.filter(function(evento) {
+                    return evento.start === dataSelecionada;
+                });
+
+                var container = document.getElementById('detalhes-dia');
+                
+                if (tarefasDoDia.length > 0) {
+                    var html = `<p class="fw-bold text-dark">Data: ${dataSelecionada}</p><ul class="list-group">`;
+                    tarefasDoDia.forEach(function(t) {
+                        var badge = t.concluida ? '<span class="badge bg-success">Concluída</span>' : '<span class="badge bg-warning text-dark">Pendente</span>';
+                        html += `<li class="list-group-item"><strong>${t.title}</strong><br>${badge}</li>`;
+                    });
+                    html += `</ul>`;
+                    container.innerHTML = html;
+                } else {
+                    container.innerHTML = `<p class="text-muted">Nenhuma tarefa encontrada para o dia ${dataSelecionada}.</p>`;
+                }
+            }
+        });
+
+        calendar.render();
+    });
+</script>
 {% endblock %}
