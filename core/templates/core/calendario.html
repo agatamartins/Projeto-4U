@@ -28,40 +28,41 @@
 
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js'></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
-        
-        var eventos = {{ eventos_json|safe }};
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: 'pt-br',
-            events: eventos,
+        var eventos = {{ eventos_json| safe
+    }};
 
-            dateClick: function(info) {
-                var dataSelecionada = info.dateStr; 
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'pt-br',
+        events: eventos,
 
-                var tarefasDoDia = eventos.filter(function(evento) {
-                    return evento.start === dataSelecionada;
+        dateClick: function (info) {
+            var dataSelecionada = info.dateStr;
+
+            var tarefasDoDia = eventos.filter(function (evento) {
+                return evento.start === dataSelecionada;
+            });
+
+            var container = document.getElementById('detalhes-dia');
+
+            if (tarefasDoDia.length > 0) {
+                var html = `<p class="fw-bold text-dark">Data: ${dataSelecionada}</p><ul class="list-group">`;
+                tarefasDoDia.forEach(function (t) {
+                    var badge = t.concluida ? '<span class="badge bg-success">Concluída</span>' : '<span class="badge bg-warning text-dark">Pendente</span>';
+                    html += `<li class="list-group-item"><strong>${t.title}</strong><br>${badge}</li>`;
                 });
-
-                var container = document.getElementById('detalhes-dia');
-                
-                if (tarefasDoDia.length > 0) {
-                    var html = `<p class="fw-bold text-dark">Data: ${dataSelecionada}</p><ul class="list-group">`;
-                    tarefasDoDia.forEach(function(t) {
-                        var badge = t.concluida ? '<span class="badge bg-success">Concluída</span>' : '<span class="badge bg-warning text-dark">Pendente</span>';
-                        html += `<li class="list-group-item"><strong>${t.title}</strong><br>${badge}</li>`;
-                    });
-                    html += `</ul>`;
-                    container.innerHTML = html;
-                } else {
-                    container.innerHTML = `<p class="text-muted">Nenhuma tarefa encontrada para o dia ${dataSelecionada}.</p>`;
-                }
+                html += `</ul>`;
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `<p class="text-muted">Nenhuma tarefa encontrada para o dia ${dataSelecionada}.</p>`;
             }
-        });
+        }
+    });
 
-        calendar.render();
+    calendar.render();
     });
 </script>
 {% endblock %}

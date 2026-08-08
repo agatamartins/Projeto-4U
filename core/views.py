@@ -255,6 +255,7 @@ def registrar_pomodoro(request):
             usuario=request.user,
             duracao_minutos=duracao
         )
+        
         verificar_conquistas(request.user)
         return JsonResponse({'status': 'sucesso', 'mensagem': 'Ciclo Pomodoro registrado com sucesso!'})
     return JsonResponse({'status': 'erro'}, status=400)
