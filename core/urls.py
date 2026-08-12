@@ -14,6 +14,7 @@ urlpatterns = [
     path('tarefas/<int:pk>/editar/', views.editar_tarefa_view, name='editar_tarefa'),
     path('tarefas/<int:pk>/excluir/', views.excluir_tarefa_view, name='excluir_tarefa'),
     path('tarefas/<int:pk>/concluir/', views.concluir_tarefa_view, name='concluir_tarefa'),
+path('mural/<int:pk>/excluir/', views.excluir_postagem_mural, name='excluir_postagem'),
     path('metas/<int:pk>/concluir/', views.concluir_meta_view, name='concluir_meta'),
     path('api/pomodoro/registrar/', views.registrar_pomodoro, name='registrar_pomodoro'),
 ]

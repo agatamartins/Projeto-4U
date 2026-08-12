@@ -104,13 +104,13 @@ def dashboard_view(request):
 @login_required
 def calendario_view(request):
     tarefas = Tarefa.objects.filter(usuario=request.user).order_by('data_execucao')
-
+    
     eventos = []
     for t in tarefas:
         eventos.append({
+            'id': t.pk,
             'title': t.titulo,
-            'start': str(t.data_execucao), 
-            'description': t.descricao if hasattr(t, 'descricao') else '',
+            'start': str(t.data_execucao),
             'concluida': t.concluida,
         })
     
@@ -259,3 +259,11 @@ def registrar_pomodoro(request):
         verificar_conquistas(request.user)
         return JsonResponse({'status': 'sucesso', 'mensagem': 'Ciclo Pomodoro registrado com sucesso!'})
     return JsonResponse({'status': 'erro'}, status=400)
+
+@login_required
+@require_POST
+def excluir_postagem_mural(request, pk):
+    postagem = get_object_or_404(PostagemMural, pk=pk, usuario=request.user)
+    postagem.delete()
+    messages.success(request, 'Anotação excluída do mural com sucesso!')
+    return redirect('dashboard')

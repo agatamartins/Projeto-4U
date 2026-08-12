@@ -72,9 +72,19 @@
 
             <div class="list-group list-group-flush">
                 {% for post in postagens %}
-                <div class="list-group-item">
-                    <p class="mb-1">{{ post.conteudo }}</p>
-                    <small class="text-muted">{{ post.data_criacao|date:"d/m/Y H:i" }}</small>
+                <div class="list-group-item d-flex justify-content-between align-items-start">
+                    <div>
+                        <p class="mb-1">{{ post.conteudo }}</p>
+                        <small class="text-muted">{{ post.data_criacao|date:"d/m/Y H:i" }}</small>
+                    </div>
+                    
+                    <!-- Botão com o 'x' adicionado para excluir a anotação -->
+                    <form action="{% url 'excluir_postagem' post.pk %}" method="post" class="m-0 ms-2">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger px-2 py-0" title="Excluir anotação" onclick="return confirm('Deseja excluir esta anotação?');" style="font-size: 1.1rem; line-height: 1;">
+                            &times;
+                        </button>
+                    </form>
                 </div>
                 {% empty %}
                 <p class="text-muted">Nenhum recado no mural.</p>
