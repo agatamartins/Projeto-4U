@@ -426,4 +426,37 @@ a:hover {
   .auth-card .card-body {
     padding: 1.75rem !important;
   }
+
+  .hero-section {
+    border-radius: 24px;
+  }
+
+  .hero-section h1 {
+    font-size: 2.1rem;
+  }
+
+  .site-footer {
+    border-radius: 26px 26px 0 0;
+  }
+}
+
+@media (max-width: 400px) {
+  #timer-display {
+    width: 130px;
+    height: 130px;
+    font-size: 1.7rem;
+  }
+
+  .site-navbar .navbar-brand {
+    font-size: 1.25rem;
+  }
+
+  .hero-section h1 {
+    font-size: 1.7rem;
+  }
+
+  .btn-lg {
+    padding: .65rem 1.5rem;
+    font-size: 1rem;
+  }
 }
