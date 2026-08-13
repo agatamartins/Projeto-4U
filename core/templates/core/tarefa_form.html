@@ -5,9 +5,12 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
-        <div class="card shadow-sm border-0">
+        <div class="card auth-card shadow-sm border-0">
             <div class="card-body p-4">
-                <h3 class="card-title mb-4">
+                <span class="text-eyebrow d-block">
+                    {% if modo == 'editar' %}Ajuste os detalhes{% else %}Planeje seu foco{% endif %}
+                </span>
+                <h3 class="card-title mt-2 mb-4">
                     {% if modo == 'editar' %}
                     Editar Tarefa
                     {% else %}

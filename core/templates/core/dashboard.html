@@ -1,14 +1,14 @@
 {% extends 'core/base.html' %}
 {% block title %}Pomodoro - 4U{% endblock %}
 {% block content %}
-<h2 class="mb-4">Painel Principal</h2>
+<h2 class="page-title mb-4">Painel Principal</h2>
 
 <div class="row g-4">
 
     <div class="col-md-4">
         <div class="card shadow-sm border-0 text-center p-3">
-            <h5 class="card-title text-primary">Timer Pomodoro</h5>
-            <div class="display-3 my-3 fw-bold" id="timer-display">00:00</div>
+            <h5 class="card-title text-primary"><i class="bi bi-stopwatch me-1"></i>Timer Pomodoro</h5>
+            <div class="fw-bold" id="timer-display">00:00</div>
             <div>
                 <button class="btn btn-success me-2" onclick="iniciarTempoPersonalizado()">Iniciar Pomodoro</button>
                 <button class="btn btn-danger" onclick="stopPomodoro()">Parar</button>
@@ -24,7 +24,7 @@
     <div class="col-md-4">
         <div class="card shadow-sm border-0 p-3">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="card-title text-primary mb-0">Minhas Tarefas</h5>
+                <h5 class="card-title text-primary mb-0"><i class="bi bi-list-check me-1"></i>Minhas Tarefas</h5>
                 <a href="{% url 'criar_tarefa' %}?origem=dashboard" class="btn btn-sm btn-primary">+ Nova</a>
             </div>
             <ul class="list-group list-group-flush mb-3">
@@ -62,7 +62,7 @@
 
     <div class="col-md-4">
         <div class="card shadow-sm border-0 p-3">
-            <h5 class="card-title text-primary mb-3">Mural Pessoal</h5>
+            <h5 class="card-title text-primary mb-3"><i class="bi bi-easel me-1"></i>Mural Pessoal</h5>
 
             <form method="post" class="mb-3">
                 {% csrf_token %}
@@ -77,11 +77,13 @@
                         <p class="mb-1">{{ post.conteudo }}</p>
                         <small class="text-muted">{{ post.data_criacao|date:"d/m/Y H:i" }}</small>
                     </div>
-                    
+
                     <!-- Botão com o 'x' adicionado para excluir a anotação -->
                     <form action="{% url 'excluir_postagem' post.pk %}" method="post" class="m-0 ms-2">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-outline-danger px-2 py-0" title="Excluir anotação" onclick="return confirm('Deseja excluir esta anotação?');" style="font-size: 1.1rem; line-height: 1;">
+                        <button type="submit" class="btn btn-sm btn-outline-danger px-2 py-0"
+                            title="Excluir anotação" onclick="return confirm('Deseja excluir esta anotação?');"
+                            style="font-size: 1.1rem; line-height: 1;">
                             &times;
                         </button>
                     </form>
