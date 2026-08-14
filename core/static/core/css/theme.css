@@ -1,24 +1,12 @@
-/* ===================================================================
-   4U — Tema visual inspirado no template "TemplateMo 586 Scholar"
-   Este arquivo é puramente de apresentação (cores, tipografia, formas).
-   Nenhuma classe funcional do Bootstrap usada por JS/formulários foi
-   removida — apenas restilizada.
-   =================================================================== */
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
 
 :root {
-  /* Paleta extraída do template Scholar */
   --brand-primary: #7a6ad8;
   --brand-primary-dark: #6355c4;
   --brand-primary-darker: #4f43a8;
   --brand-light: #f1f0fe;
   --brand-dark: #1e1e1e;
   --brand-gray: #4a4a4a;
-
-  /* Sobrescreve variáveis do Bootstrap 5.3 para propagar o tema
-     automaticamente em utilitários (.bg-primary, .text-primary,
-     .border-primary, .btn-check:checked, links, etc.) */
   --bs-primary: var(--brand-primary);
   --bs-primary-rgb: 122, 106, 216;
   --bs-link-color: var(--brand-primary);
@@ -28,8 +16,6 @@
   --bs-body-font-family: 'Poppins', sans-serif;
   --bs-body-color: var(--brand-gray);
   --bs-body-bg: #faf9ff;
-
-  /* Cantos mais suaves e arredondados, como no template Scholar */
   --bs-border-radius-sm: 10px;
   --bs-border-radius: 16px;
   --bs-border-radius-lg: 22px;
@@ -62,9 +48,6 @@ a:hover {
   color: #fff;
 }
 
-/* ---------------------------------------------------------------
-   Eyebrow / rótulo de destaque (uso opcional em títulos de página)
-   --------------------------------------------------------------- */
 .text-eyebrow {
   display: inline-block;
   color: var(--brand-primary);
@@ -91,9 +74,6 @@ a:hover {
   background: var(--brand-primary);
 }
 
-/* ---------------------------------------------------------------
-   Navbar
-   --------------------------------------------------------------- */
 .site-navbar {
   border-radius: 0 0 26px 26px;
   padding-top: .6rem;
@@ -128,9 +108,6 @@ a:hover {
   opacity: .85;
 }
 
-/* ---------------------------------------------------------------
-   Botões — cantos em pílula, ao estilo dos CTAs do Scholar
-   --------------------------------------------------------------- */
 .btn {
   border-radius: 30px;
   font-weight: 500;
@@ -178,9 +155,6 @@ a:hover {
   box-shadow: 0 0 0 .2rem rgba(122, 106, 216, .25) !important;
 }
 
-/* ---------------------------------------------------------------
-   Cards
-   --------------------------------------------------------------- */
 .card {
   border-radius: 22px;
   box-shadow: 0 10px 30px rgba(122, 106, 216, .10) !important;
@@ -195,7 +169,6 @@ a:hover {
   font-weight: 600;
 }
 
-/* Painel "hero" da landing page */
 .hero-section {
   background: linear-gradient(135deg, var(--brand-light) 0%, #ffffff 70%);
   border-radius: 34px;
@@ -206,7 +179,6 @@ a:hover {
   font-style: normal;
 }
 
-/* Cartões de destaque (features) na landing page */
 .feature-box {
   background-color: var(--brand-light);
   border-radius: 25px;
@@ -231,7 +203,6 @@ a:hover {
   box-shadow: 0 10px 20px rgba(122, 106, 216, .35);
 }
 
-/* Cartão usado nas páginas de autenticação */
 .auth-card {
   border-radius: 28px;
   overflow: hidden;
@@ -245,9 +216,6 @@ a:hover {
   color: var(--brand-primary);
 }
 
-/* ---------------------------------------------------------------
-   Formulários
-   --------------------------------------------------------------- */
 .form-control,
 .form-select {
   background-color: var(--brand-light);
@@ -286,9 +254,6 @@ a:hover {
   border-left: none;
 }
 
-/* ---------------------------------------------------------------
-   Listas
-   --------------------------------------------------------------- */
 .list-group-item {
   border-radius: 14px !important;
   border: 1px solid #eeeaff;
@@ -304,9 +269,6 @@ a:hover {
   border-width: 1px;
 }
 
-/* ---------------------------------------------------------------
-   Timer Pomodoro
-   --------------------------------------------------------------- */
 #timer-display {
   color: var(--brand-primary);
   background-color: var(--brand-light);
@@ -321,9 +283,6 @@ a:hover {
   box-shadow: inset 0 0 0 6px rgba(122, 106, 216, .18);
 }
 
-/* ---------------------------------------------------------------
-   Tabelas
-   --------------------------------------------------------------- */
 .table-responsive {
   border-radius: 18px;
   overflow: hidden;
@@ -343,9 +302,6 @@ a:hover {
   background-color: var(--brand-light);
 }
 
-/* ---------------------------------------------------------------
-   Badges & Alertas
-   --------------------------------------------------------------- */
 .badge {
   border-radius: 30px;
   font-weight: 500;
@@ -357,9 +313,6 @@ a:hover {
   border: none;
 }
 
-/* ---------------------------------------------------------------
-   Medalhas de conquista
-   --------------------------------------------------------------- */
 .achievement-badge {
   border-radius: 20px !important;
   background-color: var(--brand-light) !important;
@@ -375,9 +328,6 @@ a:hover {
   color: var(--brand-primary) !important;
 }
 
-/* ---------------------------------------------------------------
-   Calendário (FullCalendar)
-   --------------------------------------------------------------- */
 #calendar {
   font-family: 'Poppins', sans-serif;
 }
@@ -396,9 +346,6 @@ a:hover {
   background-color: var(--brand-light) !important;
 }
 
-/* ---------------------------------------------------------------
-   Rodapé
-   --------------------------------------------------------------- */
 .site-footer {
   background-color: var(--brand-primary);
   color: #fff;
@@ -409,9 +356,6 @@ a:hover {
   color: #fff;
 }
 
-/* ---------------------------------------------------------------
-   Responsivo
-   --------------------------------------------------------------- */
 @media (max-width: 767px) {
   .site-navbar {
     border-radius: 0 0 18px 18px;
