@@ -34,6 +34,12 @@ Projeto-4U-main/
     └── templates/core/      # Templates HTML (Bootstrap 5)
 ```
 
+> A reorganização removeu uma pasta `config/config/` e um `manage.py` duplicados
+> que eram resíduos de uma segunda execução do `startproject` e não eram usados
+> pela aplicação, além de um arquivo solto (`teste`) e dos `__pycache__`
+> versionados. O `requirements.txt`, que estava salvo em UTF-16, foi
+> reconvertido para UTF-8 padrão.
+
 ## Rastreabilidade dos requisitos
 
 | Requisito | Descrição | Onde está implementado |
@@ -54,3 +60,16 @@ Projeto-4U-main/
 | RNF001 | Interface intuitiva | Bootstrap 5 + navegação consistente em `base.html` |
 | RNF002 | Tempo de resposta < 3s | Operações assíncronas (fetch) para o Pomodoro |
 | RNF003 | Compatibilidade com navegadores | Uso de Bootstrap/CSS padrão, sem recursos proprietários |
+
+### O que foi adicionado nesta reorganização
+
+Vários requisitos já tinham modelo e, em alguns casos, formulário prontos,
+mas nenhuma view, rota ou tela os conectava — ou seja, o requisito não era
+alcançável navegando pelo sistema. Foram adicionados:
+
+- Tela e formulário de **edição de perfil** (RF003).
+- Fluxo completo de **criar/editar/excluir/concluir tarefas** (RF004–RF006, RF008), com botões nas telas de Dashboard e Calendário.
+- Formulário de **publicação no mural** diretamente no Dashboard (RF009).
+- Formulário de **criação de metas pessoais** e botão de "marcar como atingida" na tela de Conquistas (RF011).
+- Lógica de **concessão automática de medalhas** (RF012), disparada ao concluir tarefas, ciclos Pomodoro ou metas.
+- Link de "Perfil" na navegação e ícones do Bootstrap Icons para as medalhas.
